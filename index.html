@@ -1,600 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosmic Valentine</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            background-color: #000;
-            color: #fff;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .cosmic-bg {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(120, 80, 20, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(120, 60, 10, 0.1) 0%, transparent 50%),
-                linear-gradient(135deg, #000 0%, #111 100%);
-            z-index: -2;
-        }
-        
-        .stars {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-        
-        .star {
-            position: absolute;
-            background-color: #fff;
-            border-radius: 50%;
-            animation: twinkle 3s infinite alternate;
-        }
-        
-        @keyframes twinkle {
-            0% { opacity: 0.3; }
-            100% { opacity: 1; }
-        }
-        
-        .container {
-            text-align: center;
-            max-width: 800px;
-            width: 90%;
-            z-index: 10;
-            padding: 20px;
-        }
-        
-        .title {
-            font-size: 2.8rem;
-            margin-bottom: 40px;
-            font-weight: 300;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: #FFD700;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-            opacity: 0;
-            animation: fadeInUp 1.5s ease 0.5s forwards;
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .heart-container {
-            width: 300px;
-            height: 300px;
-            margin: 0 auto 50px;
-            position: relative;
-            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.7));
-        }
-        
-        .heart-outline {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0.3;
-            border: 2px solid #FFD700;
-            border-radius: 50% 50% 0 0;
-            transform: rotate(45deg);
-            top: 0;
-            left: 0;
-        }
-        
-        .heart-outline:before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: 2px solid #FFD700;
-            border-radius: 50% 50% 0 0;
-            transform: rotate(90deg);
-            top: 0;
-            left: 0;
-        }
-        
-        .magic-dust {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            background: #FFD700;
-            border-radius: 50%;
-            filter: blur(1px);
-            box-shadow: 0 0 10px 3px #FFD700;
-            opacity: 0;
-            z-index: 1;
-        }
-        
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 40px;
-            flex-wrap: wrap;
-        }
-        
-        .btn {
-            padding: 18px 40px;
-            font-size: 1.5rem;
-            font-weight: 600;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-width: 180px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            overflow: hidden;
-            z-index: 20;
-        }
-        
-        .yes-btn {
-            background: linear-gradient(45deg, #FFD700, #FFA500);
-            color: #000;
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
-            opacity: 0;
-            animation: fadeInUp 1s ease 1.5s forwards;
-        }
-        
-        .yes-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.6);
-        }
-        
-        .no-btn {
-            background: linear-gradient(45deg, #333, #666);
-            color: #fff;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-            opacity: 0;
-            animation: fadeInUp 1s ease 1.5s forwards;
-            transition: transform 0.1s linear !important;
-        }
-        
-        .response {
-            margin-top: 40px;
-            font-size: 2.2rem;
-            color: #FFD700;
-            min-height: 80px;
-            opacity: 0;
-            transition: opacity 0.8s ease;
-            font-weight: 300;
-            letter-spacing: 1px;
-        }
-        
-        .response span {
-            display: inline-block;
-            animation: wink 2s infinite;
-        }
-        
-        @keyframes wink {
-            0%, 50%, 100% { transform: rotate(0deg); }
-            5%, 45% { transform: rotate(-10deg); }
-            10%, 40% { transform: rotate(10deg); }
-        }
-        
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        .glow {
-            animation: glow 2s infinite alternate;
-        }
-        
-        @keyframes glow {
-            from { filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.7)); }
-            to { filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.9)); }
-        }
-        
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .title {
-                font-size: 2rem;
-                margin-bottom: 30px;
-            }
-            
-            .heart-container {
-                width: 250px;
-                height: 250px;
-                margin-bottom: 40px;
-            }
-            
-            .btn {
-                padding: 15px 30px;
-                font-size: 1.3rem;
-                min-width: 150px;
-            }
-            
-            .response {
-                font-size: 1.8rem;
-            }
-            
-            .buttons {
-                gap: 20px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .title {
-                font-size: 1.6rem;
-            }
-            
-            .heart-container {
-                width: 200px;
-                height: 200px;
-            }
-            
-            .btn {
-                padding: 12px 25px;
-                font-size: 1.2rem;
-                min-width: 130px;
-            }
-            
-            .response {
-                font-size: 1.5rem;
-            }
-            
-            .buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-        
-        .instruction {
-            margin-top: 20px;
-            color: #888;
-            font-size: 0.9rem;
-            font-style: italic;
-            opacity: 0;
-            animation: fadeInUp 1s ease 2s forwards;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Valentine 💌</title>
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: black;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 0;
+    }
+
+    .scene {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2;
+        transition: transform 1s ease;
+    }
+
+    .zoom {
+        transform: scale(1.6);
+    }
+
+    .envelope {
+        width: 220px;
+        height: 140px;
+        background: #e6e6e6;
+        position: relative;
+        cursor: pointer;
+        border-radius: 6px;
+        box-shadow: 0 10px 30px rgba(255,255,255,.2);
+    }
+
+    .envelope::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, transparent 50%, #ccc 50%);
+        clip-path: polygon(0 0, 100% 0, 50% 60%);
+    }
+
+    .paper {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        width: 200px;
+        height: 120px;
+        background: white;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 600;
+        transform: translateY(100%);
+        transition: transform 1s ease;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .paper.show {
+        transform: translateY(-75%);
+    }
+
+    .paper.full {
+        transform: translateY(-140%);
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .buttons {
+        margin-top: 15px;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .yes {
+        background: #ff4d6d;
+        color: white;
+    }
+
+    .no {
+        background: #aaa;
+    }
+
+    .message {
+        color: white;
+        font-size: 28px;
+        position: absolute;
+        text-align: center;
+        z-index: 3;
+    }
+</style>
 </head>
 <body>
-    <div class="cosmic-bg"></div>
-    <div class="stars" id="starsContainer"></div>
-    
-    <div class="container">
-        <h1 class="title">Be My Valentine</h1>
-        <div class="heart-container" id="heartContainer">
-            <div class="heart-outline"></div>
-        </div>
-        <h2 class="title">Yes or Yes?</h2>
-        
-        <div class="buttons">
-            <button class="btn yes-btn" id="yesBtn">
-                <i class="fas fa-check"></i> YES
-            </button>
-            <button class="btn no-btn" id="noBtn">
-                <i class="fas fa-times"></i> NO
-            </button>
-        </div>
-        
-        <div class="response" id="response"></div>
-        <p class="instruction">The stars will form a golden heart... then make your choice</p>
-    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const heartContainer = document.getElementById('heartContainer');
-            const yesBtn = document.getElementById('yesBtn');
-            const noBtn = document.getElementById('noBtn');
-            const response = document.getElementById('response');
-            const starsContainer = document.getElementById('starsContainer');
-            
-            // Create background stars
-            function createBackgroundStars() {
-                for (let i = 0; i < 150; i++) {
-                    const star = document.createElement('div');
-                    star.classList.add('star');
-                    star.style.width = Math.random() * 3 + 'px';
-                    star.style.height = star.style.width;
-                    star.style.left = Math.random() * 100 + '%';
-                    star.style.top = Math.random() * 100 + '%';
-                    star.style.animationDelay = Math.random() * 5 + 's';
-                    star.style.opacity = Math.random() * 0.7 + 0.3;
-                    starsContainer.appendChild(star);
-                }
-            }
-            
-            // Create heart from golden stardust
-            function createMagicHeart() {
-                // Heart shape points (simplified)
-                const heartPoints = [];
-                const centerX = 150;
-                const centerY = 150;
-                const size = 120;
-                
-                // Generate heart shape points
-                for (let angle = 0; angle < Math.PI * 2; angle += 0.05) {
-                    // Heart parametric equations
-                    const t = angle;
-                    const x = 16 * Math.pow(Math.sin(t), 3);
-                    const y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
-                    
-                    // Scale and position
-                    const scaledX = centerX + x * size/16;
-                    const scaledY = centerY - y * size/16;
-                    
-                    heartPoints.push({x: scaledX, y: scaledY});
-                }
-                
-                // Create stardust particles along the heart shape
-                let delay = 0;
-                heartPoints.forEach((point, index) => {
-                    if (index % 3 === 0) { // Create fewer particles
-                        setTimeout(() => {
-                            const dust = document.createElement('div');
-                            dust.classList.add('magic-dust');
-                            dust.style.left = point.x + 'px';
-                            dust.style.top = point.y + 'px';
-                            
-                            // Random size and brightness
-                            const dustSize = Math.random() * 8 + 4;
-                            dust.style.width = dustSize + 'px';
-                            dust.style.height = dustSize + 'px';
-                            dust.style.opacity = Math.random() * 0.8 + 0.2;
-                            
-                            // Random golden color variation
-                            const goldVariation = Math.random() * 40 + 200;
-                            dust.style.backgroundColor = `rgb(${goldVariation}, ${goldVariation-50}, 0)`;
-                            dust.style.boxShadow = `0 0 ${dustSize}px ${dustSize/2}px rgba(255, 215, 0, 0.7)`;
-                            
-                            heartContainer.appendChild(dust);
-                            
-                            // Make dust particles twinkle
-                            setInterval(() => {
-                                dust.style.opacity = Math.random() * 0.7 + 0.3;
-                            }, 300 + Math.random() * 700);
-                            
-                        }, delay);
-                        
-                        delay += 20; // Speed of heart formation
-                    }
-                });
-                
-                // Add some floating dust around the heart
-                for (let i = 0; i < 30; i++) {
-                    setTimeout(() => {
-                        const dust = document.createElement('div');
-                        dust.classList.add('magic-dust');
-                        
-                        // Position randomly around the heart
-                        const angle = Math.random() * Math.PI * 2;
-                        const distance = Math.random() * 100 + 150;
-                        const x = centerX + Math.cos(angle) * distance;
-                        const y = centerY + Math.sin(angle) * distance;
-                        
-                        dust.style.left = x + 'px';
-                        dust.style.top = y + 'px';
-                        
-                        // Smaller floating dust
-                        const dustSize = Math.random() * 4 + 2;
-                        dust.style.width = dustSize + 'px';
-                        dust.style.height = dustSize + 'px';
-                        dust.style.opacity = Math.random() * 0.5 + 0.1;
-                        
-                        heartContainer.appendChild(dust);
-                        
-                        // Animate floating dust
-                        animateFloatingDust(dust, x, y);
-                        
-                    }, delay + Math.random() * 1000);
-                }
-            }
-            
-            // Animate floating dust particles
-            function animateFloatingDust(dust, startX, startY) {
-                let angle = Math.random() * Math.PI * 2;
-                let radius = Math.random() * 30 + 20;
-                let speed = 0.01 + Math.random() * 0.02;
-                let time = 0;
-                
-                function float() {
-                    time += speed;
-                    const x = startX + Math.cos(time) * radius;
-                    const y = startY + Math.sin(time) * radius;
-                    
-                    dust.style.left = x + 'px';
-                    dust.style.top = y + 'px';
-                    dust.style.opacity = 0.3 + Math.sin(time) * 0.2;
-                    
-                    requestAnimationFrame(float);
-                }
-                
-                float();
-            }
-            
-            // No button behavior - gets faster each time
-            let noSpeed = 1;
-            let noAttempts = 0;
-            
-            noBtn.addEventListener('mouseover', function() {
-                moveNoButton();
-            });
-            
-            noBtn.addEventListener('touchstart', function(e) {
-                e.preventDefault();
-                moveNoButton();
-            });
-            
-            noBtn.addEventListener('click', function() {
-                moveNoButton();
-                noAttempts++;
-                
-                // Increase speed with each attempt
-                noSpeed += 0.5;
-                
-                // Change button text based on attempts
-                const messages = [
-                    "Try again",
-                    "Not happening",
-                    "Nope",
-                    "Really?",
-                    "Still no",
-                    "Why try?",
-                    "Give up",
-                    "YES is better"
-                ];
-                
-                if (noAttempts <= messages.length) {
-                    noBtn.innerHTML = `<i class="fas fa-times"></i> ${messages[noAttempts-1]}`;
-                }
-                
-                // Make button smaller with attempts
-                const scale = Math.max(0.7, 1 - (noAttempts * 0.05));
-                noBtn.style.transform = `scale(${scale})`;
-            });
-            
-            function moveNoButton() {
-                const containerRect = document.querySelector('.container').getBoundingClientRect();
-                const buttonRect = noBtn.getBoundingClientRect();
-                
-                // Calculate max positions
-                const maxX = containerRect.width - buttonRect.width - 40;
-                const maxY = containerRect.height - buttonRect.height;
-                
-                // Generate random position
-                const randomX = Math.floor(Math.random() * maxX);
-                const randomY = Math.floor(Math.random() * maxY);
-                
-                // Apply movement with increasing speed
-                noBtn.style.transition = `transform ${0.5/noSpeed}s ease-out`;
-                noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
-            }
-            
-            // Yes button behavior
-            yesBtn.addEventListener('click', function() {
-                // Create golden explosion
-                createGoldenExplosion();
-                
-                // Show response
-                response.textContent = "See you tonight 😉";
-                response.style.opacity = "1";
-                response.classList.add("pulse");
-                
-                // Change button text and disable
-                yesBtn.innerHTML = '<i class="fas fa-heart"></i> LOCKED IN';
-                yesBtn.disabled = true;
-                yesBtn.style.background = "linear-gradient(45deg, #444, #222)";
-                yesBtn.style.cursor = "default";
-                
-                // Remove no button
-                noBtn.style.display = "none";
-                
-                // Enhance heart glow
-                document.querySelector('.heart-outline').classList.add('glow');
-                
-                // Add more stardust
-                setTimeout(() => {
-                    addExtraStardust();
-                }, 500);
-            });
-            
-            // Create golden explosion effect
-            function createGoldenExplosion() {
-                const centerX = heartContainer.offsetWidth / 2;
-                const centerY = heartContainer.offsetHeight / 2;
-                
-                for (let i = 0; i < 50; i++) {
-                    setTimeout(() => {
-                        const particle = document.createElement('div');
-                        particle.classList.add('magic-dust');
-                        
-                        particle.style.left = centerX + 'px';
-                        particle.style.top = centerY + 'px';
-                        particle.style.width = '8px';
-                        particle.style.height = '8px';
-                        
-                        heartContainer.appendChild(particle);
-                        
-                        // Animate explosion
-                        const angle = Math.random() * Math.PI * 2;
-                        const distance = Math.random() * 200 + 100;
-                        const duration = 800 + Math.random() * 400;
-                        
-                        particle.animate([
-                            { transform: 'translate(0, 0) scale(1)', opacity: 1 },
-                            { transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) scale(0)`, opacity: 0 }
-                        ], {
-                            duration: duration,
-                            easing: 'ease-out'
-                        });
-                        
-                        // Remove after animation
-                        setTimeout(() => {
-                            if (particle.parentNode) {
-                                particle.parentNode.removeChild(particle);
-                            }
-                        }, duration);
-                        
-                    }, i * 20);
-                }
-            }
-            
-            // Add extra stardust after saying yes
-            function addExtraStardust() {
-                const centerX = 150;
-                const centerY = 150;
-                
-                for (let i = 0; i < 20; i++) {
-                    const dust = document.createElement('div');
-                    dust.classList.add('magic-dust');
-                    
-                    const angle = Math.random() * Math.PI * 2;
-                    const distance = Math.random() * 180 + 70;
-                    const x = centerX + Math.cos(angle) * distance;
-                    const y = centerY + Math.sin(angle) * distance;
-                    
-                    dust.style.left = x + 'px';
-                    dust.style.top = y + 'px';
-                    dust.style.width = '5px';
-                    dust.style.height = '5px';
-                    dust.style.opacity = 0.7;
-                    
-                    heartContainer.appendChild(dust);
-                    animateFloatingDust(dust, x, y);
-                }
-            }
-            
-            // Initialize everything
-            createBackgroundStars();
-            
-            // Start heart formation after a brief delay
-            setTimeout(() => {
-                createMagicHeart();
-            }, 1000);
+<canvas id="bg"></canvas>
+
+<div class="scene" id="scene">
+    <div class="envelope" id="envelope">
+        <div class="paper" id="paper">Press me 💌</div>
+    </div>
+</div>
+
+<div class="scene hidden" id="questionScene">
+    <div class="paper full">
+        Will you be my Valentine? 💖
+        <div class="buttons">
+            <button class="yes" id="yesBtn">Yes</button>
+            <button class="no" id="noBtn">No</button>
+        </div>
+    </div>
+</div>
+
+<div class="message hidden" id="finalMsg">
+    Thank you for being my Valentine 💘
+</div>
+
+<script>
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+let particles = [];
+let heartMode = "multi";
+let heartColor = "rgba(255,255,255,0.25)";
+
+function heart(t, scale = 1) {
+    return {
+        x: 16 * Math.pow(Math.sin(t), 3) * scale,
+        y: -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t)) * scale
+    };
+}
+
+function spawnHeart(scale) {
+    for (let t = 0; t < Math.PI * 2; t += 0.15) {
+        let p = heart(t, scale);
+        particles.push({
+            x: canvas.width/2 + p.x * 12,
+            y: canvas.height/2 + p.y * 12,
+            vy: -0.2,
+            life: 100,
+            size: Math.random()*2+1
         });
-    </script>
+    }
+}
+
+function animate() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    if (heartMode === "multi") {
+        if (Math.random() < 0.02) spawnHeart(Math.random()*0.8+0.3);
+    }
+
+    particles.forEach(p => {
+        p.y += p.vy;
+        p.life--;
+        ctx.fillStyle = heartColor;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+        ctx.fill();
+    });
+
+    particles = particles.filter(p => p.life > 0);
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+const envelope = document.getElementById("envelope");
+const paper = document.getElementById("paper");
+const scene = document.getElementById("scene");
+const questionScene = document.getElementById("questionScene");
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const finalMsg = document.getElementById("finalMsg");
+
+let noTexts = [
+    "Nope 😌",
+    "Not happening",
+    "Nice try",
+    "You wish",
+    "Absolutely not",
+    "Still no",
+    "You have no option 😏"
+];
+let noIndex = 0;
+
+envelope.onclick = () => {
+    paper.classList.add("show");
+    scene.classList.add("zoom");
+
+    setTimeout(() => {
+        scene.classList.remove("zoom");
+        scene.classList.add("hidden");
+        questionScene.classList.remove("hidden");
+    }, 2000);
+};
+
+noBtn.onclick = () => {
+    noBtn.textContent = noTexts[noIndex % noTexts.length];
+    noIndex++;
+};
+
+yesBtn.onclick = () => {
+    questionScene.classList.add("hidden");
+    finalMsg.classList.remove("hidden");
+
+    heartMode = "single";
+    heartColor = "rgba(255,50,70,0.8)";
+    particles = [];
+
+    setInterval(() => spawnHeart(1), 1200);
+};
+</script>
+
 </body>
 </html>
